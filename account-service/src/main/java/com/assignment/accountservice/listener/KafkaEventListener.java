@@ -1,6 +1,5 @@
 package com.assignment.accountservice.listener;
 
-import com.assignment.accountservice.listener.event.CustomerEvent;
 import com.assignment.accountservice.listener.event.DeleteCustomerEvent;
 import com.assignment.accountservice.service.AccountService;
 import org.slf4j.Logger;
@@ -22,10 +21,9 @@ public class KafkaEventListener {
             containerFactory = "customerKafkaListenerContainerFactory",
             groupId = "account-service"
     )
-    public void customerListener(CustomerEvent event) {
+    public void customerListener(DeleteCustomerEvent event) {
         logger.info("Received customer event: " + event.toString());
-        if(event instanceof DeleteCustomerEvent)
-            accountService.deleteCustomerAccounts(((DeleteCustomerEvent) event).customerId());
+        accountService.deleteCustomerAccounts(event.getCustomerId());
     }
 
     private final Logger logger = LoggerFactory.getLogger(KafkaEventListener.class);

@@ -1,6 +1,6 @@
 package com.assignment.accountservice.configuration;
 
-import com.assignment.accountservice.listener.event.CustomerEvent;
+import com.assignment.accountservice.listener.event.DeleteCustomerEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +23,7 @@ public class KafkaConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ConsumerFactory<String, CustomerEvent> consumerFactory() {
+    public ConsumerFactory<String, DeleteCustomerEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -34,18 +34,21 @@ public class KafkaConfig {
         props.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 JsonDeserializer.class);
+        props.put(
+                JsonDeserializer.USE_TYPE_INFO_HEADERS,
+                false);
 
         return new DefaultKafkaConsumerFactory<>(
                 props,
                 new StringDeserializer(),
-                new JsonDeserializer<>(CustomerEvent.class));
+                new JsonDeserializer<>(DeleteCustomerEvent.class));
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, CustomerEvent>
+    public ConcurrentKafkaListenerContainerFactory<String, DeleteCustomerEvent>
     customerKafkaListenerContainerFactory() {
 
-        ConcurrentKafkaListenerContainerFactory<String, CustomerEvent> factory =
+        ConcurrentKafkaListenerContainerFactory<String, DeleteCustomerEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

@@ -1,5 +1,14 @@
 package com.assignment.accountservice.listener.event;
 
-public record DeleteCustomerEvent(String customerId) implements CustomerEvent {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class DeleteCustomerEvent {
+
+    private String customerId;
 
 }
