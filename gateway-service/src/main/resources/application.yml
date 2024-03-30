@@ -1,0 +1,26 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /bank
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /api/swagger-config
+    urls:
+      - url: /customer-service/api
+        name: Customer Service
+      - url: /account-service/api
+        name: Account Service
